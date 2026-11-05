@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cinestream-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cinestream
+      POSTGRES_USER: cinestream
+      POSTGRES_PASSWORD: cinestream_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - cinestream_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cinestream -d cinestream"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  cinestream_postgres_data:
