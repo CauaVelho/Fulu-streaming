@@ -34,3 +34,7 @@ API: `http://localhost:3001`
 Frontend: `http://localhost:5173`
 
 PostgreSQL: porta externa `5433`
+
+## Contas Fulu
+
+Clique em **Visitante** ou em **Usuário** para criar uma conta ou entrar. A conta usa nome, foto de perfil e senha. Minha Lista permanece associada ao usuário no PostgreSQL e é restaurada após login ou recarregamento.

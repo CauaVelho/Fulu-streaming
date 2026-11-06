@@ -2,6 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
 const API_URL = "http://localhost:3001/api";
+const AVATARS = [
+  "/avatars/avatar-1.svg",
+  "/avatars/avatar-2.svg",
+  "/avatars/avatar-3.svg",
+  "/avatars/avatar-4.svg",
+];
 
 function App() {
   const [contents, setContents] = useState([]);
@@ -10,7 +16,14 @@ function App() {
   const [active, setActive] = useState("Início");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [myList, setMyList] = useState(() => JSON.parse(localStorage.getItem("fulu-list") || "[]"));
+  const [myList, setMyList] = useState([]);
+  const [sessionUser, setSessionUser] = useState(() => JSON.parse(localStorage.getItem("fulu-user") || "null"));
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
+  const [authName, setAuthName] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authAvatar, setAuthAvatar] = useState(AVATARS[0]);
+  const [authError, setAuthError] = useState("");
 
   useEffect(() => {
     const load = async () => {
@@ -28,15 +41,82 @@ function App() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("fulu-list", JSON.stringify(myList));
-  }, [myList]);
+    const restoreSession = async () => {
+      const token = localStorage.getItem("fulu-token");
+      if (!token) return;
+      try {
+        const response = await fetch(`${API_URL}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+        if (!response.ok) throw new Error();
+        const data = await response.json();
+        setSessionUser(data.user);
+        localStorage.setItem("fulu-user", JSON.stringify(data.user));
+        const listResponse = await fetch(`${API_URL}/auth/list`, { headers: { Authorization: `Bearer ${token}` } });
+        if (listResponse.ok) setMyList(await listResponse.json());
+      } catch {
+        localStorage.removeItem("fulu-token");
+        localStorage.removeItem("fulu-user");
+        setSessionUser(null);
+      }
+    };
+    restoreSession();
+  }, []);
 
-  const toggleList = (content) => {
-    setMyList((current) =>
-      current.some((item) => item.id === content.id)
-        ? current.filter((item) => item.id !== content.id)
-        : [...current, content],
-    );
+  const toggleList = async (content) => {
+    const token = localStorage.getItem("fulu-token");
+    if (!token || !sessionUser) {
+      setAuthOpen(true);
+      return;
+    }
+    const saved = myList.some((item) => item.id === content.id);
+    try {
+      const response = await fetch(`${API_URL}/auth/list/${content.id}`, {
+        method: saved ? "DELETE" : "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) throw new Error("Não foi possível atualizar Minha Lista");
+      setMyList((current) => saved ? current.filter((item) => item.id !== content.id) : [...current, content]);
+    } catch (requestError) {
+      setError(requestError.message);
+    }
+  };
+
+  const submitAuth = async (event) => {
+    event.preventDefault();
+    setAuthError("");
+    try {
+      const response = await fetch(`${API_URL}/auth/${authMode}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: authName,
+          password: authPassword,
+          ...(authMode === "register" ? { avatarUrl: authAvatar } : {}),
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Não foi possível acessar sua conta");
+      localStorage.setItem("fulu-token", data.token);
+      localStorage.setItem("fulu-user", JSON.stringify(data.user));
+      setSessionUser(data.user);
+      setAuthOpen(false);
+      setAuthName("");
+      setAuthPassword("");
+      const listResponse = await fetch(`${API_URL}/auth/list`, { headers: { Authorization: `Bearer ${data.token}` } });
+      if (listResponse.ok) setMyList(await listResponse.json());
+    } catch (requestError) {
+      setAuthError(requestError.message);
+    }
+  };
+
+  const logout = async () => {
+    const token = localStorage.getItem("fulu-token");
+    if (token) await fetch(`${API_URL}/auth/logout`, { method: "POST", headers: { Authorization: `Bearer ${token}` } }).catch(() => {});
+    localStorage.removeItem("fulu-token");
+    localStorage.removeItem("fulu-user");
+    setSessionUser(null);
+    setMyList([]);
+    setAuthOpen(false);
+    setActive("Início");
   };
 
   const filtered = useMemo(() => {
@@ -79,7 +159,7 @@ function App() {
         </button>
         <nav>
           {navItems.map(([label, icon]) => (
-            <button key={label} className={active === label ? "active" : ""} onClick={() => setActive(label)}>
+            <button key={label} className={active === label ? "active" : ""} onClick={() => label === "Usuário" ? setAuthOpen(true) : setActive(label)}>
               <span>{icon}</span><b>{label}</b>
             </button>
           ))}
@@ -92,7 +172,10 @@ function App() {
             <span>⌕</span>
             <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar filmes, séries ou canais" />
           </label>
-          <button className="profile"><img src="/fulu-icon.png" alt="" /><span>Visitante</span></button>
+          <button className="profile" onClick={() => setAuthOpen(true)}>
+            <img src={sessionUser?.avatarUrl || "/fulu-icon.png"} alt="" />
+            <span>{sessionUser?.name || "Visitante"}</span>
+          </button>
         </header>
 
         {loading && <div className="status">Carregando catálogo...</div>}
@@ -145,6 +228,49 @@ function App() {
               <dl><div><dt>Elenco</dt><dd>{selected.cast?.join(", ") || "Não informado"}</dd></div><div><dt>Gêneros</dt><dd>{selected.categories?.map((item) => item.name).join(", ") || "Fulu"}</dd></div></dl>
             </div>
           </article>
+        </div>
+      )}
+
+      {authOpen && (
+        <div className="modal-backdrop" onClick={() => setAuthOpen(false)}>
+          <section className="auth-modal" onClick={(event) => event.stopPropagation()}>
+            <button className="close" onClick={() => setAuthOpen(false)}>×</button>
+            {sessionUser ? (
+              <div className="account-view">
+                <img className="account-avatar" src={sessionUser.avatarUrl || "/fulu-icon.png"} alt={sessionUser.name} />
+                <span>Conta Fulu</span>
+                <h1>{sessionUser.name}</h1>
+                <p>{myList.length} {myList.length === 1 ? "item" : "itens"} em Minha Lista</p>
+                <button className="logout-button" onClick={logout}>Sair da conta</button>
+              </div>
+            ) : (
+              <>
+                <div className="auth-brand"><img src="/fulu-icon.png" alt="" /><strong>Fulu</strong></div>
+                <div className="auth-tabs">
+                  <button className={authMode === "login" ? "active" : ""} onClick={() => { setAuthMode("login"); setAuthError(""); }}>Entrar</button>
+                  <button className={authMode === "register" ? "active" : ""} onClick={() => { setAuthMode("register"); setAuthError(""); }}>Criar conta</button>
+                </div>
+                <form onSubmit={submitAuth}>
+                  <label>Nome de usuário<input value={authName} onChange={(event) => setAuthName(event.target.value)} autoComplete="username" required minLength={2} maxLength={30} /></label>
+                  <label>Senha<input type="password" value={authPassword} onChange={(event) => setAuthPassword(event.target.value)} autoComplete={authMode === "register" ? "new-password" : "current-password"} required minLength={4} /></label>
+                  {authMode === "register" && (
+                    <fieldset>
+                      <legend>Escolha sua foto</legend>
+                      <div className="avatar-grid">
+                        {AVATARS.map((avatar) => (
+                          <button type="button" key={avatar} className={authAvatar === avatar ? "selected" : ""} onClick={() => setAuthAvatar(avatar)}>
+                            <img src={avatar} alt="Foto de perfil" />
+                          </button>
+                        ))}
+                      </div>
+                    </fieldset>
+                  )}
+                  {authError && <div className="auth-error">{authError}</div>}
+                  <button className="auth-submit" type="submit">{authMode === "register" ? "Criar conta" : "Entrar"}</button>
+                </form>
+              </>
+            )}
+          </section>
         </div>
       )}
     </div>

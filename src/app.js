@@ -3,6 +3,7 @@ const cors = require("cors");
 const healthRoutes = require("./routes/health.routes");
 const contentRoutes = require("./routes/content.routes");
 const categoryRoutes = require("./routes/category.routes");
+const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json({ limit: "1mb" }));
 app.use("/api/health", healthRoutes);
 app.use("/api/content", contentRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: "Rota não encontrada" });

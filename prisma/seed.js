@@ -1,4 +1,5 @@
 const { PrismaClient, ContentType, Rating } = require("@prisma/client");
+const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 
 const seed = async () => {
@@ -8,7 +9,7 @@ const seed = async () => {
   await prisma.user.deleteMany();
 
   const user = await prisma.user.create({
-    data: { name: "Visitante", email: "visitante@fulu.local", password: "seed-only-not-for-production" },
+    data: { name: "Visitante", email: "visitante@fulu.local", password: await bcrypt.hash("visitante123", 12), avatarUrl: "/fulu-icon.png" },
   });
   const categories = await Promise.all(
     ["Ação", "Drama", "Ficção", "Comédia", "Suspense", "Documentário"].map((name) => prisma.category.create({ data: { name } })),

@@ -27,13 +27,23 @@ enum Rating {
 
 model User {
   id        String   @id @default(cuid())
-  name      String
+  name      String   @unique
   email     String   @unique
   password  String
   avatarUrl String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   myList    MyList[]
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Category {
