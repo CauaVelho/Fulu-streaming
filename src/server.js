@@ -4,5 +4,5 @@ const app = require("./app");
 const port = Number(process.env.PORT) || 3001;
 
 app.listen(port, () => {
-  console.log(`CineStream API executando em http://localhost:${port}`);
+  console.log(`Fulu API executando em http://localhost:${port}`);
 });

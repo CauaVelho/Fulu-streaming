@@ -1,4 +1,4 @@
-# CineStream
+# Fulu
 
 Catálogo audiovisual full-stack inspirado em serviços de streaming.
 
@@ -32,3 +32,5 @@ npm run dev
 API: `http://localhost:3001`
 
 Frontend: `http://localhost:5173`
+
+PostgreSQL: porta externa `5433`

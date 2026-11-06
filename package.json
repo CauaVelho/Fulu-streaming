@@ -1,7 +1,7 @@
 {
-  "name": "cinestream",
+  "name": "fulu-streaming",
   "version": "1.0.0",
-  "description": "Plataforma web de streaming CineStream",
+  "description": "Plataforma web de streaming Fulu",
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
@@ -9,6 +9,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "node prisma/seed.js",
+    "dev:web": "npm --prefix src/web run dev",
+    "build:web": "npm --prefix src/web run build",
     "test": "node --test"
   },
   "keywords": [],
