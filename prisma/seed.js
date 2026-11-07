@@ -37,7 +37,7 @@ const seed = async () => {
   ];
 
   const images = [
-    ["https://beam-images.warnermediacdn.com/BEAM_LWM_DELIVERABLES/e42d41de-1950-4df2-ad9f-c61e0b059918/4eaff606f3a4978090b439c517e5d23732ae744b.jpg?host=wbd-images.prod-vod.h264.io&partner=beamcom", "https://beam-images.warnermediacdn.com/BEAM_LWM_DELIVERABLES/e42d41de-1950-4df2-ad9f-c61e0b059918/4eaff606f3a4978090b439c517e5d23732ae744b.jpg?host=wbd-images.prod-vod.h264.io&partner=beamcom"],
+    ["https://beam-images.warnermediacdn.com/BEAM_LWM_DELIVERABLES/e42d41de-1950-4df2-ad9f-c61e0b059918/4eaff606f3a4978090b439c517e5d23732ae744b.jpg?host=wbd-images.prod-vod.h264.io&partner=beamcom", "https://www.sonypictures.com.br/sites/brazil/files/2023-09/sony_protetor1_1400x2100.jpg"],
     ["https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1400", "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=500"],
     ["https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1400", "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=500"],
     ["https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400", "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500"],
