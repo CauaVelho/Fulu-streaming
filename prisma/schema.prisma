@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ContentType {
+  MOVIE
+  SERIES
+  TV_CHANNEL
+}
+
+enum Rating {
+  G
+  PG
+  PG13
+  R
+  TVY
+  TVG
+  TVPG
+  TV14
+  TVMA
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  myList    MyList[]
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  contents Content[]
+}
+
+model Content {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  year        Int
+  duration    String?
+  rating      Rating
+  type        ContentType
+  posterUrl   String
+  backdropUrl String
+  trailerUrl  String?
+  featured    Boolean     @default(false)
+  cast        String[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  categories  Category[]
+  myList      MyList[]
+
+  @@index([title])
+  @@index([type])
+}
+
+model MyList {
+  id        String   @id @default(cuid())
+  userId    String
+  contentId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
+}
