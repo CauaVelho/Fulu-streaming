@@ -16,7 +16,11 @@ const seed = async () => {
   );
 
   const data = [
+<<<<<<< HEAD
     ["O Protetor", "Robert McCall (Denzel Washington) é um ex-agente de operações especiais que forjou a própria morte para tentar viver uma vida pacata e anônima em Boston. Sua rotina metódica muda quando ele tenta ajudar Teri (Chloë Grace Moretz), uma jovem explorada por uma violenta rede da máfia russa.", 2014, "2h 12min", "PG16", "MOVIE", true, ["Ação", "Mistério"], ["Denzel Washington", "Chloë Grace Moretz"]],
+=======
+    ["Nebulosa Azul", "Uma missão além da Terra revela um segredo que pode mudar o destino da humanidade.", 2025, "2h 18min", "PG13", "MOVIE", true, ["Ação", "Ficção"], ["Lia Santos", "Mateus Vale"]],
+>>>>>>> d92be80424466513e39264c14936a4e3291189bf
     ["Última Cidade", "Sobreviventes atravessam um mundo abandonado em busca de esperança.", 2024, "1h 56min", "R", "MOVIE", false, ["Ação", "Suspense"], ["Ravi Costa", "Nina Sol"]],
     ["Crônicas de Aurora", "Uma família recebe um chamado inesperado para defender sua terra ancestral.", 2026, "8 episódios", "TV14", "SERIES", true, ["Ficção", "Drama"], ["Caio Luz", "Eva Porto"]],
     ["Rota Sem Nome", "Investigadores descobrem uma rede de segredos em uma cidade silenciosa.", 2025, "10 episódios", "TVMA", "SERIES", false, ["Drama", "Suspense"], ["Léo Maia", "Dora Reis"]],
@@ -37,7 +41,11 @@ const seed = async () => {
   ];
 
   const images = [
+<<<<<<< HEAD
     ["https://beam-images.warnermediacdn.com/BEAM_LWM_DELIVERABLES/e42d41de-1950-4df2-ad9f-c61e0b059918/4eaff606f3a4978090b439c517e5d23732ae744b.jpg?host=wbd-images.prod-vod.h264.io&partner=beamcom", "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=500"],
+=======
+    ["https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1400", "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=500"],
+>>>>>>> d92be80424466513e39264c14936a4e3291189bf
     ["https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1400", "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=500"],
     ["https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1400", "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=500"],
     ["https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400", "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500"],
