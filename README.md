@@ -15,9 +15,11 @@ Catálogo audiovisual full-stack inspirado em serviços de streaming.
 ```powershell
 cd meu-projeto
 npm install
+npm run setup:env
 docker compose up -d postgres
 npx prisma generate
-npx prisma migrate dev --name init
+npx prisma migrate deploy
+npm run prisma:seed
 npm run dev
 ```
 

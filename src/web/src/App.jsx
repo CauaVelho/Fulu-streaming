@@ -127,6 +127,7 @@ function App() {
     else if (active === "Séries") result = result.filter((item) => item.type === "SERIES");
     else if (active === "Canais") result = result.filter((item) => item.type === "TV_CHANNEL");
     else if (active === "Minha Lista") result = myList;
+    else if (active === "Em alta") result = contents.slice(0, 6);
     return result;
   }, [contents, search, active, myList]);
 
@@ -136,12 +137,17 @@ function App() {
     ["Início", "⌂"], ["Filmes", "▶"], ["Séries", "▦"], ["Canais", "◉"], ["Minha Lista", "＋"], ["Usuário", "○"],
   ];
 
-  const Section = ({ title, items }) => (
+  const openCatalog = (destination) => {
+    setSearch("");
+    setActive(destination);
+  };
+
+  const Section = ({ title, destination, items }) => (
     <section className="content-section">
-      <div className="section-heading"><h2>{title}</h2><button>Ver tudo</button></div>
+      <div className="section-heading"><h2>{title}</h2><button onClick={() => openCatalog(destination || title)}>Ver mais</button></div>
       <div className="card-row">
         {items.map((item) => (
-          <article className="content-card" key={item.id} onClick={() => setSelected(item)}>
+          <article className="content-card" key={item.id} style={{ "--backdrop": `url("${item.backdropUrl}")` }} onClick={() => setSelected(item)}>
             <img src={item.posterUrl} alt={item.title} />
             <div className="card-overlay"><span>{item.title}</span><button aria-label={`Adicionar ${item.title}`} onClick={(event) => { event.stopPropagation(); toggleList(item); }}>{myList.some((saved) => saved.id === item.id) ? "✓" : "+"}</button></div>
           </article>
@@ -187,7 +193,7 @@ function App() {
               <section className="results">
                 <h1>{search ? `Resultados para "${search}"` : active}</h1>
                 {filtered.length ? <div className="results-grid">{filtered.map((item) => (
-                  <article className="content-card grid-card" key={item.id} onClick={() => setSelected(item)}>
+                  <article className="content-card grid-card" key={item.id} style={{ "--backdrop": `url("${item.backdropUrl}")` }} onClick={() => setSelected(item)}>
                     <img src={item.posterUrl} alt={item.title} />
                     <div className="card-overlay"><span>{item.title}</span></div>
                   </article>
@@ -204,10 +210,10 @@ function App() {
                     <div className="actions"><button className="play" onClick={() => setSelected(featured)}>▶ Assistir</button><button className="add" onClick={() => toggleList(featured)}>＋ Minha lista</button></div>
                   </div>
                 </section>
-                <Section title="Em alta" items={contents.slice(0, 6)} />
-                <Section title="Filmes" items={contents.filter((item) => item.type === "MOVIE")} />
-                <Section title="Séries" items={contents.filter((item) => item.type === "SERIES")} />
-                <Section title="Canais ao vivo" items={contents.filter((item) => item.type === "TV_CHANNEL")} />
+                <Section title="Em alta" destination="Em alta" items={contents.slice(0, 6)} />
+                <Section title="Filmes" destination="Filmes" items={contents.filter((item) => item.type === "MOVIE")} />
+                <Section title="Séries" destination="Séries" items={contents.filter((item) => item.type === "SERIES")} />
+                <Section title="Canais ao vivo" destination="Canais" items={contents.filter((item) => item.type === "TV_CHANNEL")} />
               </>
             ) : <div className="empty">O catálogo está vazio.</div>}
           </>
