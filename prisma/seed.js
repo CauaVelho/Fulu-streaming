@@ -42,8 +42,19 @@ const seed = async () => {
     ["https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1400", "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=500"],
     ["https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400", "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500"],
     ["https://images.unsplash.com/photo-1524668951403-d44b28200ce0?w=1400", "https://images.unsplash.com/photo-1524668951403-d44b28200ce0?w=500"],
-    ["https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1400", "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=500"],
-    ["https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400", "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500"],
+    ["https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1400", "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=500"],
+    ["https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400", "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=500"],
+    ["https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=1400", "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=500"],
+    ["https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400", "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=500"],
+    ["https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1400", "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=500"],
+    ["https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1400", "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500"],
+    ["https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1400", "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=500"],
+    ["https://images.unsplash.com/photo-1496034663057-6245f11be793?w=1400", "https://images.unsplash.com/photo-1496034663057-6245f11be793?w=500"],
+    ["https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1400", "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=500"],
+    ["https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400", "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=500"],
+    ["https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1400", "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=500"],
+    ["https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400", "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500"],
+    ["https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1400", "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500"],
   ];
 
   for (let i = 0; i < data.length; i += 1) {
@@ -52,8 +63,8 @@ const seed = async () => {
       data: {
         title, description, year, duration, rating: Rating[rating] || Rating.PG13,
         type: ContentType[type], featured,
-        backdropUrl: images[i % images.length][0],
-        posterUrl: images[i % images.length][1],
+        backdropUrl: images[i][0],
+        posterUrl: images[i][1],
         cast,
         categories: { connect: categories.filter((category) => categoryNames.includes(category.name)).map((category) => ({ id: category.id })) },
       },

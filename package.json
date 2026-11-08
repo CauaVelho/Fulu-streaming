@@ -9,6 +9,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "node prisma/seed.js",
+    "fix:images": "node scripts/fix-content-images.js",
     "setup:env": "node scripts/setup-env.js",
     "dev:web": "npm --prefix src/web run dev",
     "build:web": "npm --prefix src/web run build",
