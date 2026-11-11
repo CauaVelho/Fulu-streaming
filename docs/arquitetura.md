@@ -1,4 +1,4 @@
-# Arquitetura do CineStream
+# Arquitetura do Fulu-streaming
 
 A aplicação Fulu será dividida em API Express e interface React/Vite:
 
