@@ -23,6 +23,8 @@ npm run prisma:seed
 npm run dev
 ```
 
+O seed sincroniza os títulos, biografias e URLs de capa/fundo do arquivo `prisma/seed.js` com o banco sem apagar contas ou itens da Minha Lista. Execute `npm run prisma:seed` novamente após alterar essas URLs.
+
 Em outro terminal:
 
 ```powershell

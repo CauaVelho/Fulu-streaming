@@ -3,6 +3,13 @@ const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 
 const seed = async () => {
+  for (let index = 1; index <= 4; index += 1) {
+    await prisma.user.updateMany({
+      where: { avatarUrl: `/avatars/avatar-${index}.svg` },
+      data: { avatarUrl: `/avatars/avatar-${index}.webp` },
+    });
+  }
+
   let user = await prisma.user.findUnique({ where: { email: "visitante@fulu.local" } });
   if (!user) {
     user = await prisma.user.create({
@@ -41,21 +48,25 @@ const seed = async () => {
     ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmxi0Bk_QZAbnu4vAsfOWgrRJ7wZTmZPo-2J7uWQxEAfAiUqspF8Nx0Og&s=10", "https://ingresso-a.akamaihd.net/prd/img/movie/a-morte-do-demonio-a-ascensao/870fe027-8d5a-4a50-bdc3-5d1119dd45ce.jpg"],
     ["https://www.siglaseabreviaturas.com/wp-content/uploads/2015/04/TWD-title.jpg", "https://m.media-amazon.com/images/M/MV5BNjA0ZDZiNmQtM2E2Ni00Y2UzLTgzYjktMzE2YzJhYzZhNzI4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"],
     ["https://i.ytimg.com/vi/S0KUXSI5J1I/maxresdefault.jpg", "https://image.tmdb.org/t/p/original/1JyzC4fYge80mAxgCmpWYpx1vso.jpg"],
-    ["https://store-images.s-microsoft.com/image/apps.33776.9007199266244356.f3c45420-71fd-4355-9b98-549eebf9b29c.3fc6451a-bdbe-4f22-b610-1a3b4289159f", "https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2024/07/crunchyroll-logo-manga-art-e1721336833325.jpg?fit=1500%2C846&amp;ssl=1"],
-    ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg0Co8UG_1WtF7ivr4BmEZw8JDEhFAD__bJuqCbE02lg&s=10", "https://static1.purebreak.com.br/articles/5/11/11/35/@/507030-cartoon-network-passara-por-fusao-com-wa-1200x0-3.png"],
-    ["https://m.media-amazon.com/images/S/pv-target-images/e46417559054417d408881056c768e625399ef697188fe9a9a540e2dcb94e5ad.jpg", "https://http2.mlstatic.com/D_NQ_NP_947773-MLA111407951786_052026-C.webp"],
-    ["https://s2-valor.glbimg.com/IoynRPjnHGeN-ixAN5bfQ071C3c=/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_63b422c2caee4269b8b34177e8876b93/internal_photos/bs/2021/8/p/lO4XVLQxW7HE5MCVyBFg/foto05cul-102-dvd1-d32.jpg", "https://almde50tons.wordpress.com/wp-content/uploads/2019/01/voce-netflix-serie-stalker-capa-700x361.jpg"],
-    ["https://m.media-amazon.com/images/I/81wkCjWBcrL._AC_UF1000,1000_QL80_.jpg", "https://m.media-amazon.com/images/S/pv-target-images/01f3833a479b4b6660ec7f188291c5b2febefb7333f964f56852661b29a952f2._SX1080_FMjpg_.jpg"],
-    ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT681uPHMNy-vVcSs-yY8fDekzZJ3FJ2KVexnYH7ncViQ&s=10", "https://m.media-amazon.com/images/S/pv-target-images/658e02290389c0430dc80ed7eb8f00bd482e5f63f4bcfa82932d3945b3c964cf.jpg"],
-    ["https://cinema-em-cena.nyc3.cdn.digitaloceanspaces.com/reviews/836/fM7cHZc9WK9yU47kiiyMS4tW0uw.jpg", "https://m.media-amazon.com/images/S/pv-target-images/a25897e4efdd8ee0134eb3e05094f29198b4845b3e68e661f3646a5747f04515.jpg"],
-    ["https://br.web.img3.acsta.net/medias/nmedia/18/90/95/96/20122166.jpg", "https://m.media-amazon.com/images/S/pv-target-images/2d18cc50893590fc95dc47bd7f2ba16069372331d303384df42b252f40a5bfab._UR1920,1080_SX624_FMjpg_.jpg"],
+    ["https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2024/07/crunchyroll-logo-manga-art-e1721336833325.jpg?fit=1500%2C846&ssl=1", "https://store-images.s-microsoft.com/image/apps.33776.9007199266244356.f3c45420-71fd-4355-9b98-549eebf9b29c.3fc6451a-bdbe-4f22-b610-1a3b4289159f"],
+    ["https://static1.purebreak.com.br/articles/5/11/11/35/@/507030-cartoon-network-passara-por-fusao-com-wa-1200x0-3.png", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg0Co8UG_1WtF7ivr4BmEZw8JDEhFAD__bJuqCbE02lg&s=10"],
+    ["https://http2.mlstatic.com/D_NQ_NP_947773-MLA111407951786_052026-C.webp", "https://m.media-amazon.com/images/S/pv-target-images/e46417559054417d408881056c768e625399ef697188fe9a9a540e2dcb94e5ad.jpg"],
+    ["https://almde50tons.wordpress.com/wp-content/uploads/2019/01/voce-netflix-serie-stalker-capa-700x361.jpg", "https://s2-valor.glbimg.com/IoynRPjnHGeN-ixAN5bfQ071C3c=/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_63b422c2caee4269b8b34177e8876b93/internal_photos/bs/2021/8/p/lO4XVLQxW7HE5MCVyBFg/foto05cul-102-dvd1-d32.jpg"],
+    ["https://m.media-amazon.com/images/S/pv-target-images/01f3833a479b4b6660ec7f188291c5b2febefb7333f964f56852661b29a952f2._SX1080_FMjpg_.jpg", "https://m.media-amazon.com/images/I/81wkCjWBcrL._AC_UF1000,1000_QL80_.jpg"],
+    ["https://m.media-amazon.com/images/S/pv-target-images/658e02290389c0430dc80ed7eb8f00bd482e5f63f4bcfa82932d3945b3c964cf.jpg", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT681uPHMNy-vVcSs-yY8fDekzZJ3FJ2KVexnYH7ncViQ&s=10"],
+    ["https://m.media-amazon.com/images/S/pv-target-images/a25897e4efdd8ee0134eb3e05094f29198b4845b3e68e661f3646a5747f04515.jpg", "https://cinema-em-cena.nyc3.cdn.digitaloceanspaces.com/reviews/836/fM7cHZc9WK9yU47kiiyMS4tW0uw.jpg"],
+    ["https://m.media-amazon.com/images/S/pv-target-images/2d18cc50893590fc95dc47bd7f2ba16069372331d303384df42b252f40a5bfab._UR1920,1080_SX624_FMjpg_.jpg", "https://br.web.img3.acsta.net/medias/nmedia/18/90/95/96/20122166.jpg"],
     ["https://beam-images.warnermediacdn.com/BEAM_LWM_DELIVERABLES/06462aa0-1ee9-48be-90df-364dd7914c30/376e2bfa-7ce8-11f1-ae36-0affc7b274bd?host=wbd-images.prod-vod.h264.io&partner=beamcom", "https://m.media-amazon.com/images/M/MV5BMjBlNTExMDAtMWZjZi00MDc5LWFkMjgtZDU0ZWQ5ODk3YWY5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"],
-    ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnEZ2TtSd0pzoX86UBOEMoQxQY4hVrtoN50kxbGIbDWA&s=10", "https://www.laughingplace.com/uploads/media/2026/09/VisionQuest-Story-So-Far.png/w768"],
+    ["https://www.laughingplace.com/uploads/media/2026/09/VisionQuest-Story-So-Far.png/w768", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnEZ2TtSd0pzoX86UBOEMoQxQY4hVrtoN50kxbGIbDWA&s=10"],
     ["https://static.wikia.nocookie.net/assista-series/images/5/56/Breaking-Bad.jpg/revision/latest/scale-to-width-down/1200?cb=20150528205254&path-prefix=pt-br", "https://bloximages.newyork1.vip.townnews.com/redandblack.com/content/tncms/assets/v3/editorial/2/02/20255746-f17a-11e1-b1f1-001a4bcf6878/503d726685c2e.image.jpg?resize=400%2C400"],
-    ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0axv0gmuoEP_otKxcRfdBO-cAHurdfl-k-xtCxLvWT0VLWv_yB4zUxCA&s=10", "https://http2.mlstatic.com/D_NQ_NP_608584-MLB48688914132_122021-O.webp"],
-    ["https://grandesnomesdapropaganda.com.br/wp-content/uploads/2021/11/oie_1ppKz8GJwWZh.jpg", "https://d2d7ho1ae66ldi.cloudfront.net/ArquivoNoticias/b98ae26f-abf5-11ee-aa78-d602bea5d5c0/telecine.jpg"],
+    ["https://http2.mlstatic.com/D_NQ_NP_608584-MLB48688914132_122021-O.webp", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0axv0gmuoEP_otKxcRfdBO-cAHurdfl-k-xtCxLvWT0VLWv_yB4zUxCA&s=10"],
+    ["https://d2d7ho1ae66ldi.cloudfront.net/ArquivoNoticias/b98ae26f-abf5-11ee-aa78-d602bea5d5c0/telecine.jpg", "https://grandesnomesdapropaganda.com.br/wp-content/uploads/2021/11/oie_1ppKz8GJwWZh.jpg"],
     ["https://rollingstone.com.br/wp-content/uploads/hbo_-_divulgacao.jpg", "https://www.prensario.net/multimedios/imgs/36267_750.jpg"],
   ];
+
+  if (images.length !== data.length) {
+    throw new Error(`Catálogo possui ${data.length} títulos, mas ${images.length} pares de imagens.`);
+  }
 
   for (let i = 0; i < data.length; i += 1) {
     const [title, description, year, duration, rating, type, featured, categoryNames, cast] = data[i];
@@ -66,7 +77,10 @@ const seed = async () => {
     const connectedCategories = categories.filter((category) => categoryNames.includes(category.name)).map((category) => ({ id: category.id }));
     const existing = await prisma.content.findFirst({ where: { title } });
     if (existing) {
-      await prisma.content.update({ where: { id: existing.id }, data: { ...contentData, categories: { set: connectedCategories } } });
+      await prisma.content.update({
+        where: { id: existing.id },
+        data: { ...contentData, backdropUrl: images[i][0], posterUrl: images[i][1], categories: { set: connectedCategories } },
+      });
     } else {
       await prisma.content.create({
         data: {

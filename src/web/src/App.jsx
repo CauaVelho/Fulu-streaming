@@ -3,10 +3,10 @@ import "./App.css";
 
 const API_URL = "http://localhost:3001/api";
 const AVATARS = [
-  "/avatars/avatar-1.svg",
-  "/avatars/avatar-2.svg",
-  "/avatars/avatar-3.svg",
-  "/avatars/avatar-4.svg",
+  "/avatars/avatar-1.webp",
+  "/avatars/avatar-2.webp",
+  "/avatars/avatar-3.webp",
+  "/avatars/avatar-4.webp",
 ];
 
 function App() {
